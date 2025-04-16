@@ -31,8 +31,6 @@ def full_name(sex=None):
     last = last_name()
     return first + ' ' + last
 
-
-
 def dob(min_age=0, max_age=120, format=None):
     current_year = date.datetime.now().year
     year = rand.randint(current_year - max_age, current_year - min_age)
@@ -89,23 +87,29 @@ def address(part=None):
 def sex():
     return rand.choice(['m', 'f'])
 
-def generate_patient(pt_sex=None, min_age=0, max_age=120, format=None):
-    if pt_sex is None:
-        pt_sex = sex()
-        
-    patient_data = {'first_name': first_name(pt_sex),
-                    'last_name': last_name(),
-                    'sex': pt_sex,                    
-                    'dob': dob(min_age, max_age, format),
-                    'ssn': ssn(),
-                    'phone_number': phone_number(),
+def generate_patients(count=1, pt_sex=None, min_age=0, max_age=120, format=None):
+    patient_list = []
+    for n in range(count):
+        current_sex = pt_sex
+        if current_sex is None:
+            current_sex = sex()  
+        else:
+            current_sex = current_sex.lower()
 
-                    # 'xray_interp': get_xray(xray_type=None),
-                    # 'hl7_message': get_hl7_message(msg_type=None),
-                    }
-                    
-    return patient_data
+        patient_data = {'first_name': first_name(pt_sex),
+                        'last_name': last_name(),
+                        'sex': current_sex,                    
+                        'dob': dob(min_age, max_age, format),
+                        'ssn': ssn(),
+                        'phone_number': phone_number(),
 
+                        # 'xray_interp': get_xray(xray_type=None),
+                        # 'hl7_message': get_hl7_message(msg_type=None),
+                        }
+                        
+        patient_list.append(patient_data)
+
+    return patient_list
 
 ### Additional Information
 def get_xray(xray_type=None):
@@ -158,4 +162,28 @@ def get_hl7_message(msg_type=None):
     
     return hl7_message
 
-print(generate_patient())
+### Exports
+def export_to_csv(patient_list, filename="patients.csv"):
+    import csv
+    
+    if not patient_list:
+        print("No patients to export")
+        return None
+    
+    fieldnames = patient_list[0].keys()
+    
+    try:
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            
+            # Header row
+            writer.writeheader()
+            
+            # Patient rows
+            writer.writerows(patient_list)
+            
+        return filename
+        
+    except Exception as e:
+        print(f"Error exporting to CSV: {e}")
+        return None
