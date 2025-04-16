@@ -14,7 +14,7 @@ def first_name(sex=''):
     elif sex == 'F':
         return rand.choice(female_names)
     else:
-        raise ValueError("Sex must be 'M', 'F', or 'A'")
+        raise ValueError("Sex must be 'M', 'F', or ''")
 
     
 def last_name():
