@@ -1,7 +1,7 @@
 import random as rand
-from names_data import male_names, female_names, last_names
-from radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
-from hl7_data import facilities, hl7_apps
+from data.names_data import male_names, female_names, last_names
+from data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
+from data.hl7_data import facilities, hl7_apps
 import datetime as date
 
 def first_name(sex=None):
@@ -187,3 +187,4 @@ def export_to_csv(patient_list, filename="patients.csv"):
     except Exception as e:
         print(f"Error exporting to CSV: {e}")
         return None
+    
