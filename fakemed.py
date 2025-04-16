@@ -27,12 +27,11 @@ def last_name():
 def full_name(sex=None):
     if sex is not None: 
         sex = sex.lower()
-    first = first_name(sex)
+    first = get_first_name(sex)
     last = last_name()
     return first + ' ' + last
 
-def sex():
-    return rand.choice(['m', 'f'])
+
 
 def dob(min_age=0, max_age=120, format=None):
     current_year = date.datetime.now().year
@@ -87,17 +86,16 @@ def address(part=None):
     else:
         raise ValueError("Invalid part. Use 'street', 'city', 'state', 'zip_code', or None.")
 
-def generate_patient(sex=None, min_age=0, max_age=120, format=None, xray_type=None):
-    if sex is None:
-        sex = sex()
-    else:
-        sex = sex.lower()
+def sex():
+    return rand.choice(['m', 'f'])
 
-    first_name = first_name(sex)
-
-    patient_data = {'first_name': first_name,
+def generate_patient(pt_sex=None, min_age=0, max_age=120, format=None):
+    if pt_sex is None:
+        pt_sex = sex()
+        
+    patient_data = {'first_name': first_name(pt_sex),
                     'last_name': last_name(),
-                    'sex': sex,                    
+                    'sex': pt_sex,                    
                     'dob': dob(min_age, max_age, format),
                     'ssn': ssn(),
                     'phone_number': phone_number(),
@@ -159,3 +157,5 @@ def get_hl7_message(msg_type=None):
         hl7_message = "\n".join([MSH, PID, FT1])
     
     return hl7_message
+
+print(generate_patient())
