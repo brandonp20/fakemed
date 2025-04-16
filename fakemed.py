@@ -4,7 +4,7 @@ from radiology_data import chest_xray_interpretations, abdominal_xray_interpreta
 from hl7_data import facilities, hl7_apps
 import datetime as date
 
-def get_first_name(sex=None):
+def first_name(sex=None):
     if sex == None:
         return rand.choice(male_names + female_names)
 
@@ -21,23 +21,20 @@ def get_first_name(sex=None):
     else:
         raise ValueError("Sex must be 'm', 'f', or None")
 
-    
-def get_last_name():
+def last_name():
     return rand.choice(last_names)
 
-
-def get_full_name(sex=None):
+def full_name(sex=None):
     if sex is not None: 
         sex = sex.lower()
-    first = get_first_name(sex)
-    last = get_last_name()
+    first = first_name(sex)
+    last = last_name()
     return first + ' ' + last
 
-def get_sex():
+def sex():
     return rand.choice(['m', 'f'])
 
-
-def get_dob(min_age=0, max_age=120, format=None):
+def dob(min_age=0, max_age=120, format=None):
     current_year = date.datetime.now().year
     year = rand.randint(current_year - max_age, current_year - min_age)
     month = rand.randint(1, 12)
@@ -59,7 +56,60 @@ def get_dob(min_age=0, max_age=120, format=None):
     else:
         raise ValueError("Invalid format. Use 'd/m/y', 'm/d/y', 'y/m/d', or 'y-m-d'.")
 
+def phone_number():
+    area_code = rand.randint(100, 999)
+    central_office_code = rand.randint(100, 999)
+    line_number = rand.randint(1000, 9999)
+    return f"({area_code}){central_office_code}-{line_number}"
 
+def ssn():
+    area_number = rand.randint(100, 999)
+    group_number = rand.randint(10, 99)
+    serial_number = rand.randint(1000, 9999)
+    return f"{area_number}-{group_number}-{serial_number}"
+
+def address(part=None):
+    street = str(rand.randint(100, 9999)) + ' ' + rand.choice(['Main St', 'Second St', 'Second Ave', 'Third St', 'Fourth St', 'Fifth St'])
+    city = rand.choice(['Anytown', 'Othertown', 'Sometown'])
+    state = rand.choice(['CA', 'TX', 'NY', 'FL', 'IL', 'AZ', 'OR', 'WA', 'CO', 'MA'])
+    zip_code = rand.randint(10000, 99999)
+
+    if part == 'street':
+        return street
+    elif part == 'city':
+        return city
+    elif part == 'state':
+        return state
+    elif part == 'zip':
+        return zip_code
+    elif part is None:
+        return f"{street}, {city}, {state} {zip_code}"
+    else:
+        raise ValueError("Invalid part. Use 'street', 'city', 'state', 'zip_code', or None.")
+
+def generate_patient(sex=None, min_age=0, max_age=120, format=None, xray_type=None):
+    if sex is None:
+        sex = sex()
+    else:
+        sex = sex.lower()
+
+    first_name = first_name(sex)
+
+    patient_data = {'first_name': first_name,
+                    'last_name': last_name(),
+                    'sex': sex,                    
+                    'dob': dob(min_age, max_age, format),
+                    'ssn': ssn(),
+                    'phone_number': phone_number(),
+
+                    # 'xray_interp': get_xray(xray_type=None),
+                    # 'hl7_message': get_hl7_message(msg_type=None),
+                    }
+                    
+    return patient_data
+
+
+### Additional Information
 def get_xray(xray_type=None):
     if xray_type is None:
         return rand.choice(chest_xray_interpretations + abdominal_xray_interpretations + spinal_xray_interpretations + extremity_xray_interpretations + pediatric_xray_interpretations + miscellaneous_xray_interpretations)
@@ -81,61 +131,17 @@ def get_xray(xray_type=None):
         else:
             raise ValueError("Invalid type. Use 'chest', 'abdominal', 'spinal', 'extremity', 'pediatric', or 'miscellaneous'.")
 
-
-def get_patient_profile(sex=None, min_age=0, max_age=120, format=None, xray_type=None):
-    patient_data = {'first_name': get_first_name(sex),
-                    'last_name': get_last_name(),
-                    'dob': get_dob(min_age, max_age, format),
-                    'xray_interp': get_xray(xray_type=None)
-                    }
-                    
-    return patient_data
-
-
-def get_phone_number():
-    area_code = rand.randint(100, 999)
-    central_office_code = rand.randint(100, 999)
-    line_number = rand.randint(1000, 9999)
-    return f"({area_code}){central_office_code}-{line_number}"
-
-def get_ssn():
-    area_number = rand.randint(100, 999)
-    group_number = rand.randint(10, 99)
-    serial_number = rand.randint(1000, 9999)
-    return f"{area_number}-{group_number}-{serial_number}"
-
-def get_address(part=None):
-    street = str(rand.randint(100, 9999)) + ' ' + rand.choice(['Main St', 'Second St', 'Second Ave', 'Third St', 'Fourth St', 'Fifth St'])
-    city = rand.choice(['Anytown', 'Othertown', 'Sometown'])
-    state = rand.choice(['CA', 'TX', 'NY', 'FL', 'IL', 'AZ', 'OR', 'WA', 'CO', 'MA'])
-    zip_code = rand.randint(10000, 99999)
-
-    if part == 'street':
-        return street
-    elif part == 'city':
-        return city
-    elif part == 'state':
-        return state
-    elif part == 'zip':
-        return zip_code
-    elif part is None:
-        return f"{street}, {city}, {state} {zip_code}"
-    else:
-        raise ValueError("Invalid part. Use 'street', 'city', 'state', 'zip_code', or None.")
-
-print(get_address('zip'))
-
 def get_hl7_message(msg_type=None):
     if msg_type == None:
         msg_type = rand.choice(['adt', 'orm', 'dft'])
 
     if msg_type == 'adt': 
         MSH = f"MSH|^~\\&|{rand.choice(hl7_apps)}|{rand.choice(facilities)}|{rand.choice(hl7_apps)}|{rand.choice(facilities)}|202310031200||ORM^O01|1234567890|P|2.3"
-        PID = f"PID|1||123456^^^Hospital^MR||{rand.choice(last_names)}^{rand.choice(male_names + female_names)}^^^||{get_dob()}|{get_sex()}|||{get_address('street')}^^{get_address('city')}^{get_address('state')}^{get_address('zip')}||{get_phone_number()}|||||||"
+        PID = f"PID|1||123456^^^Hospital^MR||{rand.choice(last_names)}^{rand.choice(male_names + female_names)}^^^||{dob()}|{sex()}|||{address('street')}^^{address('city')}^{address('state')}^{address('zip')}||{phone_number()}|||||||"
         PV1 = f"PV1|1|{rand.choice(['I', 'O', 'E'])}|Floor^Room^Bed|U|A0||||{rand.randint(100000000, 999999999)}^^{rand.choice(male_names + female_names)}^^^Dr.|||||||||||||||202310031200"
         ORC = f"ORC|NW|1234567890||||||202310031200|||A0"
         OBR = f"OBR|1|1234567890|9876543210^Radiology^L|||202310031200|||||||||||||||202310031200|||||||F|||||||"
-        OBX = f"OBX|1|{get_address('state')}|12345^Radiology Report^L||No acute cardiopulmonary process identified. Heart size within normal limits. Lungs are clear.|||F|||202310031200"
+        OBX = f"OBX|1|{address('state')}|12345^Radiology Report^L||No acute cardiopulmonary process identified. Heart size within normal limits. Lungs are clear.|||F|||202310031200"
         hl7_message = "\n".join([MSH, PID, PV1, ORC, OBR, OBX])
 
     elif msg_type == 'orm':
@@ -153,5 +159,3 @@ def get_hl7_message(msg_type=None):
         hl7_message = "\n".join([MSH, PID, FT1])
     
     return hl7_message
-
-print(get_hl7_message('adt'))
