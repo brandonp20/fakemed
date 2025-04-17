@@ -5,7 +5,6 @@ from data.radiology_data import chest_xray_interpretations, abdominal_xray_inter
 from clinical import xray
 from personal import first_name, last_name, dob, sex, phone_number, ssn, address
 
-
 def hl7_message(msg_type=None):
     if msg_type == None:
         msg_type = rand.choice(['adt', 'orm', 'dft'])

@@ -1,0 +1,5 @@
+- Move all data files to CSV format
+- Finish HL7s and add different ADT types
+- Add more radiology study readings
+- Add ICD-10 CSV
+- Add CPT CSV

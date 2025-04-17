@@ -39,3 +39,7 @@ def generate_patients(count=1, pt_sex=None, min_age=0, max_age=120, format=None)
         patient_list.append(patient_data)
 
     return patient_list
+
+export_to_csv((generate_patients(1000000)))
+
+print("Done")

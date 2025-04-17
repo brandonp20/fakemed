@@ -55,7 +55,7 @@ def phone_number():
     area_code = rand.randint(100, 999)
     central_office_code = rand.randint(100, 999)
     line_number = rand.randint(1000, 9999)
-    return f"({area_code}){central_office_code}-{line_number}"
+    return f"({area_code}) {central_office_code}-{line_number}"
 
 def ssn():
     area_number = rand.randint(100, 999)
