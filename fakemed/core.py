@@ -27,8 +27,8 @@ def generate_patients(count=1, pt_sex=None, min_age=0, max_age=120, format=None)
                         'phone_number': phone_number(),
 
                         # Clinical
-                        'diagnosis1': icd10(),
-                        'cpt': cpt(),
+                        # 'diagnosis1': icd10(),
+                        # 'cpt': cpt(),
                         'xray_interp': xray(xray_type=None),
                         # 'us_interp': us(us_type=None),
                         # 'ct_interp': ct(ct_type=None),
