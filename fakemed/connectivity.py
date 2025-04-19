@@ -24,6 +24,7 @@ def hl7_message(msg_type=None):
         ORC = "ORC|NW|1234567890||||||202310031200|||A0"
         OBR = "OBR|1|1234567890|9876543210^Radiology^L|||202310031200|||||||||||||||202310031200|||||||F|||||||"
         hl7_message = "\n".join([MSH, PID, ORC, OBR])
+    
     elif msg_type == 'dft':
         MSH = f"MSH|^~\\&|{rand.choice(hl7_apps)}|{rand.choice(facilities)}|{rand.choice(hl7_apps)}|{rand.choice(facilities)}|202310031200||DFT^P03|1234567890|P|2.3"
         PID = "PID|1||123456^^^Hospital^MR||Doe^John^^^Mr.||19800101|M|||123 Main St^^Anytown^CA^12345||(555)555-5555|||||||"

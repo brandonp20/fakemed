@@ -5,7 +5,7 @@ from data.hl7_data import facilities, hl7_apps
 from data.names_data import male_names, female_names, last_names
 from data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
 from personal import first_name, last_name, dob, sex, phone_number, ssn
-from clinical import xray
+from clinical import xray, icd10, cpt
 from connectivity import hl7_message
 from utils import export_to_csv
 
@@ -27,6 +27,8 @@ def generate_patients(count=1, pt_sex=None, min_age=0, max_age=120, format=None)
                         'phone_number': phone_number(),
 
                         # Clinical
+                        'diagnosis1': icd10(),
+                        'cpt': cpt(),
                         'xray_interp': xray(xray_type=None),
                         # 'us_interp': us(us_type=None),
                         # 'ct_interp': ct(ct_type=None),
@@ -39,7 +41,3 @@ def generate_patients(count=1, pt_sex=None, min_age=0, max_age=120, format=None)
         patient_list.append(patient_data)
 
     return patient_list
-
-export_to_csv((generate_patients(1000000)))
-
-print("Done")
