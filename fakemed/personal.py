@@ -1,6 +1,10 @@
 import random as rand
 import datetime as date
-from data.names_data import male_names, female_names, last_names
+from .utils import load_male_names, load_female_names, load_last_names
+
+male_names = load_male_names()
+female_names = load_female_names()
+last_names = load_last_names()
 
 def first_name(sex=None):
     if sex == None:

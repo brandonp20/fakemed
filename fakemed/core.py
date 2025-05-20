@@ -1,13 +1,16 @@
 import datetime as date
 import csv
 import random as rand
-from data.hl7_data import facilities, hl7_apps
-from data.names_data import male_names, female_names, last_names
-from data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
-from personal import first_name, last_name, dob, sex, phone_number, ssn
-from clinical import xray, icd10, cpt
-from connectivity import hl7_message
-from utils import export_to_csv
+from .data.hl7_data import facilities, hl7_apps
+from .utils import load_male_names, load_female_names, load_last_names, export_to_csv
+from .data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
+from .personal import first_name, last_name as generate_last_name, dob, sex, phone_number, ssn # Renamed last_name to avoid conflict
+from .clinical import xray, icd10, cpt
+from .connectivity import hl7_message
+
+male_names = load_male_names()
+female_names = load_female_names()
+last_names = load_last_names()
 
 def generate_patients(count=1, pt_sex=None, min_age=0, max_age=120, format=None):
     patient_list = []
@@ -20,7 +23,7 @@ def generate_patients(count=1, pt_sex=None, min_age=0, max_age=120, format=None)
 
         patient_data = { # Personal
                         'first_name': first_name(pt_sex),
-                        'last_name': last_name(),
+                        'last_name': generate_last_name(),
                         'sex': current_sex,                    
                         'dob': dob(min_age, max_age, format),
                         'ssn': ssn(),

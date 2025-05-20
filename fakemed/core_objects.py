@@ -1,14 +1,18 @@
 import datetime as date
 import csv
 import random as rand
-from data.hl7_data import facilities, hl7_apps
-from data.names_data import male_names, female_names, last_names
-from data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
-from personal import first_name, last_name, dob, sex, phone_number, ssn
-from clinical import xray, icd10, cpt
-from connectivity import hl7_message
-from utils import export_to_csv
+# from .data.hl7_data import facilities, hl7_apps
+from .utils import load_male_names, load_female_names, load_last_names, export_to_csv
+from .data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
+from .personal import first_name, last_name as generate_last_name_personal, dob, sex, phone_number, ssn # Renamed last_name
+from .clinical import xray, icd10, cpt
+from .connectivity import hl7_message
+
 import uuid
+
+male_names = load_male_names()
+female_names = load_female_names()
+last_names = load_last_names()
 
 class Demographics:
     def __init__(self, sex_param=None, min_age=0, max_age=120, dob_format=None):

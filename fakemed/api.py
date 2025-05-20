@@ -1,5 +1,5 @@
-from core_objects import Patient
-from utils import export_to_csv
+from .core_objects import Patient
+from .utils import export_to_csv, load_male_names, load_female_names, load_last_names
 import random
 
 def generate_and_export_patients(
@@ -7,7 +7,7 @@ def generate_and_export_patients(
         output_csv_path: str,
         male_percentage: float = 0.5,
         min_age: int = 0,
-        max_age: int = 0,
+        max_age: int = 120,
         dob_format: str = None
     ):
     
@@ -52,9 +52,9 @@ def generate_and_export_patients(
         field_names = [
             'patient_id', 'first_name', 'last_name', 'dob', 'age', 'sex', 'ssn', 
             'phone_number', 'address_street', 'address_city', 'address_state', 'address_zip', 
-            'xray_1_type', 'xray_1_interpretation', 
-            'icd10_codes', 'cpt_codes', 
-            'hl7_1_type'
+            # 'xray_1_type', 'xray_1_interpretation', 
+            # 'icd10_codes', 'cpt_codes', 
+            # 'hl7_1_type'
         ]
 
         processed_patient_data_list = []
@@ -68,4 +68,4 @@ def generate_and_export_patients(
 
     return output_csv_path
 
-generate_and_export_patients(50, 'fm-test')
+generate_and_export_patients(100, 'fm-test')

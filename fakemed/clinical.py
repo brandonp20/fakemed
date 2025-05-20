@@ -1,7 +1,10 @@
 import random as rand
-from data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
-from data.names_data import male_names, female_names, last_names
-from utils import _load_icd10_codes_to_memory, _load_cpt_codes_to_memory
+from .data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
+from .utils import load_male_names, load_female_names, load_last_names, _load_icd10_codes_to_memory, _load_cpt_codes_to_memory
+
+male_names = load_male_names()
+female_names = load_female_names()
+last_names = load_last_names()
 
 _cached_icd10_codes = None
 _cached_cpt_codes = None

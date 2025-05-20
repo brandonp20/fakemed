@@ -1,9 +1,13 @@
 import random as rand
-from data.hl7_data import facilities, hl7_apps
-from data.names_data import male_names, female_names, last_names
-from data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
-from clinical import xray
-from personal import first_name, last_name, dob, sex, phone_number, ssn, address
+from .data.hl7_data import facilities, hl7_apps
+from .utils import load_male_names, load_female_names, load_last_names
+from .data.radiology_data import chest_xray_interpretations, abdominal_xray_interpretations, spinal_xray_interpretations, extremity_xray_interpretations, pediatric_xray_interpretations, miscellaneous_xray_interpretations
+from .clinical import xray
+from .personal import first_name, last_name as generate_last_name, dob, sex, phone_number, ssn, address # Renamed last_name to avoid conflict
+
+male_names = load_male_names()
+female_names = load_female_names()
+last_names = load_last_names()
 
 def hl7_message(msg_type=None):
     if msg_type == None:

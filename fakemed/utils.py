@@ -75,3 +75,27 @@ def _load_cpt_codes_to_memory():
 
 _CPT_CODES = None
 _CPT_FILE_PATH = os.path.join(os.path.dirname(__file__), 'data', 'cpt.csv')
+
+### Name Data Loading
+def load_names_from_csv(filename):
+    names = []
+    file_path = os.path.join(os.path.dirname(__file__), 'data', filename)
+    try:
+        with open(file_path, mode='r', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                names.append(row['name'])
+    except FileNotFoundError:
+        print(f"Error: Names data file not found at {file_path}")
+    except Exception as e:
+        print(f"Error reading names data file {filename}: {e}")
+    return names
+
+def load_male_names():
+    return load_names_from_csv('male_names.csv')
+
+def load_female_names():
+    return load_names_from_csv('female_names.csv')
+
+def load_last_names():
+    return load_names_from_csv('last_names.csv')
