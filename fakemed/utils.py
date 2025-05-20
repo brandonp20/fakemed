@@ -1,30 +1,27 @@
 import csv
 import os
 
-def export_to_csv(patient_list, filename="patients.csv"):
-    if not patient_list:
+def export_to_csv(patient_data_list, filename='patients.csv', fieldnames=None):
+    if not patient_data_list:
         print("No patients to export")
         return None
     
-    fieldnames = patient_list[0].keys()
-    
+    if fieldnames is None:
+        fieldnames = patient_data_list[0].keys()
+
     try:
-        with open(filename, 'w', newline='') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            
-            # Header row
+        with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, extrasaction='ignore')
+
             writer.writeheader()
-            
-            # Patient rows
-            writer.writerows(patient_list)
-            
+            writer.writerows(patient_data_list)
+
         return filename
-        
+    
     except Exception as e:
-        print(f"Error exporting to CSV: {e}")
+        print(f"Error exporting to CSV '{filename}': {e}")
         return None
-
-
+    
 ### Data Loading from CSV to Memory
 def _load_icd10_codes_to_memory():
     global _ICD10_CODES
